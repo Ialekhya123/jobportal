@@ -14,6 +14,41 @@ import About from './pages/About';
 import Help from './pages/Help';
 import './App.css';
 
+// 404 Page Component
+const NotFound = () => (
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '60vh',
+    textAlign: 'center',
+    padding: '2rem'
+  }}>
+    <h1 style={{ fontSize: '3rem', marginBottom: '1rem', color: '#667eea' }}>404</h1>
+    <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Page Not Found</h2>
+    <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: '#666' }}>
+      The page you're looking for doesn't exist.
+    </p>
+    <a 
+      href="/" 
+      style={{
+        padding: '12px 24px',
+        backgroundColor: '#667eea',
+        color: 'white',
+        textDecoration: 'none',
+        borderRadius: '8px',
+        fontWeight: 'bold',
+        transition: 'background-color 0.3s'
+      }}
+      onMouseOver={(e) => e.target.style.backgroundColor = '#5a6fd8'}
+      onMouseOut={(e) => e.target.style.backgroundColor = '#667eea'}
+    >
+      Go Home
+    </a>
+  </div>
+);
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -75,6 +110,8 @@ function App() {
             path="/my-applications" 
             element={user ? <MyApplications user={user} /> : <Navigate to="/login" />} 
           />
+          {/* Catch-all route for 404 errors */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>

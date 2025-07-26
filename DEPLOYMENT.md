@@ -40,6 +40,12 @@
 ### `netlify.toml`
 - Configures build settings and redirects
 - Ensures proper routing for React Router
+- Uses build script for reliable builds
+
+### `build.sh`
+- Custom build script for Netlify
+- Handles dependency installation
+- Ensures proper build process
 
 ### `client/public/_redirects`
 - Handles client-side routing
@@ -49,22 +55,48 @@
 - Uses HashRouter for better static hosting compatibility
 - Ensures routes work without server-side configuration
 
+### `.nvmrc`
+- Specifies Node.js version for builds
+- Ensures consistent environment
+
 ## Troubleshooting
+
+### Build Failures
+- **Error 127**: Usually means npm is not found
+  - Solution: Use the build script approach
+  - Ensure Node.js version is set correctly
+- **Error 2**: Build script failure
+  - Check that all dependencies are properly listed
+  - Verify build command in package.json
 
 ### Page Not Found Errors
 - Ensure `_redirects` file is in `client/public/`
 - Verify `netlify.toml` is in the root directory
 - Check that HashRouter is being used
 
-### Build Failures
-- Ensure all dependencies are installed
-- Check Node.js version compatibility
-- Verify build command in package.json
-
 ### API Issues
 - For production, you'll need to deploy your backend separately
 - Update API URLs to point to your production backend
 - Consider using environment variables for API endpoints
+
+## Build Process
+
+### Local Development
+```bash
+npm run dev
+```
+
+### Production Build
+```bash
+npm run build
+```
+
+### Netlify Build
+The build process on Netlify:
+1. Installs root dependencies
+2. Installs client dependencies
+3. Builds the React app
+4. Publishes to `client/build`
 
 ## Alternative Deployment Options
 
@@ -105,4 +137,5 @@ NODE_ENV=production npm start
 - The app uses HashRouter for better static hosting compatibility
 - All routes are handled client-side
 - Backend API needs separate deployment for full functionality
-- Static assets are served from `client/build` directory 
+- Static assets are served from `client/build` directory
+- Build script ensures proper dependency installation 

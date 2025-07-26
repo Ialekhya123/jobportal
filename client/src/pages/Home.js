@@ -1,33 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, Clock, DollarSign, ArrowRight, Briefcase, Users, Award } from 'lucide-react';
-import axios from 'axios';
 import './Home.css';
 
 const Home = () => {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
-
-  const fetchJobs = async () => {
-    try {
-      const response = await axios.get('/api/jobs');
-      setJobs(response.data.slice(0, 6)); // Show only first 6 jobs
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching jobs:', error);
-      setLoading(false);
+  // Static featured jobs data
+  const featuredJobs = [
+    {
+      id: 1,
+      title: "Senior React Developer",
+      company: "TechCorp India",
+      location: "Bangalore, Karnataka",
+      salary: "₹15,00,000 - ₹25,00,000",
+      type: "Full-time",
+      posted: "2 days ago"
+    },
+    {
+      id: 2,
+      title: "Data Scientist",
+      company: "Analytics Pro",
+      location: "Mumbai, Maharashtra",
+      salary: "₹12,00,000 - ₹20,00,000",
+      type: "Full-time",
+      posted: "1 week ago"
+    },
+    {
+      id: 3,
+      title: "UI/UX Designer",
+      company: "Design Studio",
+      location: "Hyderabad, Telangana",
+      salary: "₹8,00,000 - ₹15,00,000",
+      type: "Full-time",
+      posted: "3 days ago"
+    },
+    {
+      id: 4,
+      title: "DevOps Engineer",
+      company: "Cloud Solutions",
+      location: "Pune, Maharashtra",
+      salary: "₹10,00,000 - ₹18,00,000",
+      type: "Full-time",
+      posted: "5 days ago"
+    },
+    {
+      id: 5,
+      title: "Product Manager",
+      company: "Innovation Labs",
+      location: "Delhi, NCR",
+      salary: "₹18,00,000 - ₹30,00,000",
+      type: "Full-time",
+      posted: "1 week ago"
+    },
+    {
+      id: 6,
+      title: "Mobile Developer",
+      company: "AppTech",
+      location: "Chennai, Tamil Nadu",
+      salary: "₹9,00,000 - ₹16,00,000",
+      type: "Full-time",
+      posted: "4 days ago"
     }
-  };
+  ];
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/jobs?search=${encodeURIComponent(searchQuery)}`;
+      window.location.href = `/#/jobs?search=${encodeURIComponent(searchQuery)}`;
     }
   };
 
@@ -98,58 +138,51 @@ const Home = () => {
         <div className="container">
           <div className="section-header">
             <h2>Featured Jobs</h2>
-            <Link to="/jobs" className="btn btn-outline">
-              View All Jobs
-              <ArrowRight size={16} />
+            <Link to="/jobs" className="view-all-link">
+              View All Jobs <ArrowRight className="arrow-icon" />
             </Link>
           </div>
-
-          {loading ? (
-            <div className="loading">
-              <div className="spinner"></div>
-            </div>
-          ) : (
-            <div className="jobs-grid">
-              {jobs.map((job) => (
-                <div key={job.id} className="job-card">
-                  <div className="job-header">
-                    <h3 className="job-title">{job.title}</h3>
-                    <span className="job-type">{job.type}</span>
-                  </div>
-                  <p className="job-company">{job.company}</p>
-                  <div className="job-details">
-                    <div className="job-detail">
-                      <MapPin size={16} />
-                      <span>{job.location}</span>
-                    </div>
-                    <div className="job-detail">
-                      <Clock size={16} />
-                      <span>Posted {job.postedDate}</span>
-                    </div>
-                    <div className="job-detail">
-                      <DollarSign size={16} />
-                      <span>{job.salary}</span>
-                    </div>
-                  </div>
-                  <p className="job-description">
-                    {job.description.substring(0, 150)}...
-                  </p>
-                  <Link to={`/jobs/${job.id}`} className="btn btn-primary">
-                    View Details
-                  </Link>
+          
+          <div className="jobs-grid">
+            {featuredJobs.map((job) => (
+              <div key={job.id} className="job-card">
+                <div className="job-header">
+                  <h3 className="job-title">{job.title}</h3>
+                  <span className="job-type">{job.type}</span>
                 </div>
-              ))}
-            </div>
-          )}
+                
+                <div className="job-company">{job.company}</div>
+                
+                <div className="job-details">
+                  <div className="job-detail">
+                    <MapPin className="detail-icon" />
+                    <span>{job.location}</span>
+                  </div>
+                  <div className="job-detail">
+                    <DollarSign className="detail-icon" />
+                    <span>{job.salary}</span>
+                  </div>
+                  <div className="job-detail">
+                    <Clock className="detail-icon" />
+                    <span>{job.posted}</span>
+                  </div>
+                </div>
+                
+                <Link to={`/jobs/${job.id}`} className="btn btn-outline">
+                  View Details
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="cta">
+      <section className="cta-section">
         <div className="container">
           <div className="cta-content">
-            <h2>Ready to Find Your Next Opportunity?</h2>
-            <p>Join thousands of job seekers who have found their dream jobs through our platform.</p>
+            <h2>Ready to Start Your Career?</h2>
+            <p>Join thousands of professionals who found their dream jobs through our platform.</p>
             <div className="cta-buttons">
               <Link to="/register" className="btn btn-primary">
                 Get Started
